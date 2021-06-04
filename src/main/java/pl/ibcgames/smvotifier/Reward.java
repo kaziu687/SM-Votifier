@@ -20,7 +20,7 @@ public class Reward implements CommandExecutor {
         Runnable runnable = () -> {
             if (token == null || token.equalsIgnoreCase("tutaj_wpisz_identyfikator")) {
                 sender.sendMessage(Utils.message("&cBrak identyfikatora serwera w konfiguracji SM-Votifier"));
-                sender.sendMessage(Utils.message("&cWięcej informacji znajdziesz pod adresem:"));
+                sender.sendMessage(Utils.message("&cWiecej informacji znajdziesz pod adresem:"));
                 sender.sendMessage(Utils.message("&ahttps://serwery-minecraft.pl/konfiguracja-pluginu"));
                 return;
             }
@@ -31,7 +31,7 @@ public class Reward implements CommandExecutor {
             }
 
             if (!timeouts.containsKey(sender.getName())) {
-                sender.sendMessage(Utils.message("&aSprawdzamy Twój glos, proszę czekać..."));
+                sender.sendMessage(Utils.message("&aSprawdzamy Twoj glos, prosze czekac..."));
                 JSONObject res = Utils.sendRequest("https://serwery-minecraft.pl/api/server-by-key/" + token + "/get-vote/" + sender.getName());
                 timeouts.put(sender.getName(), new Date());
                 execute(res, sender);
@@ -43,7 +43,7 @@ public class Reward implements CommandExecutor {
             long diffMinutes = diff / (60 * 1000) % 60;
 
             if (diffMinutes < 1F) {
-                sender.sendMessage(Utils.message("&cTa komenda może być użyta co 60 sekund"));
+                sender.sendMessage(Utils.message("&cTa komenda moze byc uzyta co 60 sekund"));
                 return;
             }
 

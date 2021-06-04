@@ -20,7 +20,7 @@ public class Vote implements CommandExecutor {
         Runnable runnable = () -> {
             if (token == null || token.equalsIgnoreCase("tutaj_wpisz_identyfikator")) {
                 sender.sendMessage(Utils.message("&cBrak identyfikatora serwera w konfiguracji SM-Votifier"));
-                sender.sendMessage(Utils.message("&cWięcej informacji znajdziesz pod adresem:"));
+                sender.sendMessage(Utils.message("&cWiecej informacji znajdziesz pod adresem:"));
                 sender.sendMessage(Utils.message("&ahttps://serwery-minecraft.pl/konfiguracja-pluginu"));
                 return;
             }
