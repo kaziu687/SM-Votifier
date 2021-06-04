@@ -1,0 +1,14 @@
+# Jak poprawnie skonfigurować plugin przeczytasz pod adresem:
+# https://serwery-minecraft.pl/konfiguracja-pluginu
+identyfikator: tutaj_wpisz_identyfikator
+
+# Jeśli chcesz ograniczyć dostęp do komendy /sm-nagroda
+#   false - komenda będzie dostępna dla każdego
+#   true - do jej użycia wymagane będzie uprawnienie smvotifier.nagroda
+wymagaj_uprawnien: false
+
+# Lista komend, która zostanie wysłana na konsolę po zweryfikowaniu głosu
+# {GRACZ} zostanie zastąpione nazwą gracza korzystającego z komendy
+komendy:
+  - "give {GRACZ} stone 10"
+  - "say {GRACZ} zaglosowal na serwery-minecraft.pl, dziekujemy!"
