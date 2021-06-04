@@ -30,40 +30,51 @@ public class Reward implements CommandExecutor {
                 return;
             }
 
-            if (!timeouts.containsKey(sender.getName())) {
-                sender.sendMessage(Utils.message("&aSprawdzamy Twoj glos, prosze czekac..."));
-                JSONObject res = Utils.sendRequest("https://serwery-minecraft.pl/api/server-by-key/" + token + "/get-vote/" + sender.getName());
-                timeouts.put(sender.getName(), new Date());
-                execute(res, sender);
-                return;
+            if (timeouts.containsKey(sender.getName())) {
+                Date d = timeouts.get(sender.getName());
+                long diff = (long) Math.floor((new Date().getTime() / 1000) - (d.getTime() / 1000));
+
+                if (diff < 60) {
+                    long remaining = 60 - diff;
+                    sender.sendMessage(Utils.message("&cTa komenda moze byc uzyta za " + remaining +"s"));
+
+                    return;
+                }
             }
 
-            Date d = timeouts.get(sender.getName());
-            long diff = new Date().getTime() - d.getTime();
-            long diffMinutes = diff / (60 * 1000) % 60;
-
-            if (diffMinutes < 1F) {
-                sender.sendMessage(Utils.message("&cTa komenda moze byc uzyta co 60 sekund"));
-                return;
-            }
-
+            sender.sendMessage(Utils.message("&aSprawdzamy Twoj glos, prosze czekac..."));
             JSONObject res = Utils.sendRequest("https://serwery-minecraft.pl/api/server-by-key/" + token + "/get-vote/" + sender.getName());
             timeouts.put(sender.getName(), new Date());
             execute(res, sender);
         };
+
         Thread thread = new Thread(runnable);
         thread.start();
+
         return true;
     }
 
     private void execute(JSONObject res, CommandSender sender) {
-        Boolean canClaimReward = Boolean.parseBoolean(res.get("can_claim_reward").toString());
+        boolean canClaimReward = false;
+
+        if (res.containsKey("can_claim_reward")) {
+            canClaimReward = Boolean.parseBoolean(
+                    res.get("can_claim_reward").toString()
+            );
+        }
+
         if (res.containsKey("error")) {
             sender.sendMessage(Utils.message(res.get("error").toString()));
         }
 
+        if (!canClaimReward && !res.containsKey("error")) {
+            sender.sendMessage(Utils.message("&cNie udalo sie odebrac nagrody, sprobuj pozniej"));
+
+            return;
+        }
+
         if (canClaimReward) {
-            for (String cmd : array) {
+            for (String cmd : list) {
                 cmd = cmd.replace("{GRACZ}", sender.getName());
                 String finalCmd = cmd;
 

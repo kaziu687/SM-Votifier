@@ -11,4 +11,5 @@ wymagaj_uprawnien: false
 # {GRACZ} zostanie zastąpione nazwą gracza korzystającego z komendy
 komendy:
   - "give {GRACZ} stone 10"
-  - "say {GRACZ} zaglosowal na serwery-minecraft.pl, dziekujemy!"
+  - "say {GRACZ} zaglosowal na serwery-minecraft.pl!"
+  - "say Uzyj komendy /sm-glosuj zeby zaglosowac na serwer"

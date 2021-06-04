@@ -18,30 +18,35 @@ public class Vote implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Runnable runnable = () -> {
-            if (token == null || token.equalsIgnoreCase("tutaj_wpisz_identyfikator")) {
-                sender.sendMessage(Utils.message("&cBrak identyfikatora serwera w konfiguracji SM-Votifier"));
-                sender.sendMessage(Utils.message("&cWiecej informacji znajdziesz pod adresem:"));
-                sender.sendMessage(Utils.message("&ahttps://serwery-minecraft.pl/konfiguracja-pluginu"));
-                return;
+            try {
+                if (token == null || token.equalsIgnoreCase("tutaj_wpisz_identyfikator")) {
+                    sender.sendMessage(Utils.message("&cBrak identyfikatora serwera w konfiguracji SM-Votifier"));
+                    sender.sendMessage(Utils.message("&cWiecej informacji znajdziesz pod adresem:"));
+                    sender.sendMessage(Utils.message("&ahttps://serwery-minecraft.pl/konfiguracja-pluginu"));
+                    return;
+                }
+
+                long diff = new Date().getTime() - lastUpdate.getTime();
+                long diffMinutes = diff / (60 * 1000) % 60;
+                lastUpdate = new Date();
+
+                if (url == null || diffMinutes >= 60F) {
+                    sender.sendMessage(Utils.message("&aTrwa pobieranie danych..."));
+                    JSONObject res = Utils.sendRequest("https://serwery-minecraft.pl/api/server-by-key/" + token + "/get-vote");
+
+                    url = res.get("vote_url").toString();
+                    messages = (JSONArray) res.get("text");
+                }
+
+                messages.forEach((message) -> {
+                    sender.sendMessage(Utils.message(message.toString()));
+                });
+                sender.sendMessage(Utils.message(url));
             }
-
-            long diff = new Date().getTime() - lastUpdate.getTime();
-            long diffMinutes = diff / (60 * 1000) % 60;
-            lastUpdate = new Date();
-
-            if (url == null || diffMinutes >= 60F) {
-                sender.sendMessage(Utils.message("&aTrwa pobieranie danych..."));
-                JSONObject res = Utils.sendRequest("https://serwery-minecraft.pl/api/server-by-key/" + token + "/get-vote");
-
-                url = res.get("vote_url").toString();
-                messages = (JSONArray) res.get("text");
+            catch (Exception e) {
+                e.printStackTrace();
+                sender.sendMessage(Utils.message("&cNie udalo sie pobrac danych, sprobuj pozniej"));
             }
-
-            messages.forEach((message) -> {
-                sender.sendMessage(Utils.message(message.toString()));
-            });
-            sender.sendMessage(Utils.message(url));
-
         };
         Thread thread = new Thread(runnable);
         thread.start();
