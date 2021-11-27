@@ -28,6 +28,7 @@ public final class Votifier extends JavaPlugin {
 
         this.getCommand("sm-glosuj").setExecutor(new Vote());
         this.getCommand("sm-nagroda").setExecutor(new Reward());
+        this.getCommand("sm-test").setExecutor(new Test());
     }
 
     @Override

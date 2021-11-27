@@ -4,6 +4,9 @@ authors: [kaziu687, kisi69]
 website: https://serwery-minecraft.pl
 version: @version@
 commands:
+  sm-test:
+    description: Przetestuj nagrode za glosowanie na serwery-minecraft.pl
+    usage: /sm-test
   sm-nagroda:
     description: Odbierz nagrode za glosowanie na serwery-minecraft.pl
     usage: /sm-nagroda
