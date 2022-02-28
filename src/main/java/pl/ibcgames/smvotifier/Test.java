@@ -1,11 +1,15 @@
 package pl.ibcgames.smvotifier;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-
-import java.util.*;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Test implements CommandExecutor {
     String token = Votifier.plugin.getConfiguration().get().getString("identyfikator");
@@ -16,32 +20,34 @@ public class Test implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Runnable runnable = () -> {
-            if (token == null || token.equalsIgnoreCase("tutaj_wpisz_identyfikator")) {
-                sender.sendMessage(Utils.message("&cBrak identyfikatora serwera w konfiguracji SM-Votifier"));
-                sender.sendMessage(Utils.message("&cWiecej informacji znajdziesz pod adresem:"));
-                sender.sendMessage(Utils.message("&ahttps://serwery-minecraft.pl/konfiguracja-pluginu"));
-                return;
-            }
+        BukkitRunnable runnable = new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (token == null || token.equalsIgnoreCase("tutaj_wpisz_identyfikator")) {
+                    sender.sendMessage(Utils.message("&cBrak identyfikatora serwera w konfiguracji SM-Votifier"));
+                    sender.sendMessage(Utils.message("&cWiecej informacji znajdziesz pod adresem:"));
+                    sender.sendMessage(Utils.message("&ahttps://serwery-minecraft.pl/konfiguracja-pluginu"));
+                    return;
+                }
 
-            if (!sender.isOp()) {
-                sender.sendMessage(Utils.message("&cTa komenda jest dostepna tylko dla operatorow serwera"));
-                return;
-            }
+                if (!sender.isOp()) {
+                    sender.sendMessage(Utils.message("&cTa komenda jest dostepna tylko dla operatorow serwera"));
+                    return;
+                }
 
-            if (require_permission && !sender.hasPermission("smvotifier.nagroda")) {
-                sender.sendMessage(Utils.message("&cPotrzebujesz uprawnienia &asmvotifier.nagroda"));
-                return;
-            }
+                if (require_permission && !sender.hasPermission("smvotifier.nagroda")) {
+                    sender.sendMessage(Utils.message("&cPotrzebujesz uprawnienia &asmvotifier.nagroda"));
+                    return;
+                }
 
-            sender.sendMessage(Utils.message("&aTa komenda pozwala na przetestowanie nagrody"));
-            sender.sendMessage(Utils.message("&aAby sprawdzic polaczenie pluginu z lista serwerow"));
-            sender.sendMessage(Utils.message("&apo prostu odbierz nagrode za pomoca &c/sm-nagroda"));
-            execute(sender);
+                sender.sendMessage(Utils.message("&aTa komenda pozwala na przetestowanie nagrody"));
+                sender.sendMessage(Utils.message("&aAby sprawdzic polaczenie pluginu z lista serwerow"));
+                sender.sendMessage(Utils.message("&apo prostu odbierz nagrode za pomoca &c/sm-nagroda"));
+                execute(sender);
+            }
         };
-
-        Thread thread = new Thread(runnable);
-        thread.start();
+        
+        runnable.runTaskAsynchronously(Votifier.plugin);
 
         return true;
     }
