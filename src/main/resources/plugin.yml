@@ -1,6 +1,6 @@
 main: pl.ibcgames.smvotifier.Votifier
 name: SM-Votifier
-authors: [kaziu687, kisi69]
+authors: [kaziu687, kisi69, PanSzelescik]
 website: https://serwery-minecraft.pl
 version: @version@
 commands:
@@ -13,3 +13,4 @@ commands:
   sm-glosuj:
     description: Pokaz adres strony do glosowania
     usage: /sm-glosuj
+softdepend: [PlaceholderAPI]
