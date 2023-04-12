@@ -4,19 +4,23 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.ibcgames.smvotifier.Modules.Configuration;
 import pl.ibcgames.smvotifier.integration.placeholderapi.PlaceholderAPIIntegration;
+import pl.panszelescik.scheduler.Scheduler;
+import pl.panszelescik.scheduler.api.IScheduler;
 
 import java.util.logging.Logger;
 
 public final class Votifier extends JavaPlugin {
+
     public static Logger log = Bukkit.getLogger();
     public static Votifier plugin;
     public static String token;
-
     public static Configuration Config;
+    public static IScheduler scheduler;
 
     @Override
     public void onEnable() {
         plugin = this;
+        scheduler = Scheduler.createScheduler(this);
         Config = new Configuration(this);
         this.saveDefaultConfig();
 
