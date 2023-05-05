@@ -14,3 +14,5 @@ commands:
     description: Pokaz adres strony do glosowania
     usage: /sm-glosuj
 softdepend: [PlaceholderAPI]
+api-version: 1.13
+folia-supported: true

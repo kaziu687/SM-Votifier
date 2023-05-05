@@ -1,3 +1,7 @@
+plugins {
+    id 'com.github.johnrengelman.shadow' version '4.0.0'
+}
+
 apply plugin: 'java'
 
 group = pluginGroup
@@ -19,11 +23,19 @@ repositories {
     maven {
         url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'
     }
+    maven {
+        url = 'https://maven.pkg.github.com/PanSzelescik/BukkitScheduler'
+        credentials {
+            username = System.getenv("GITHUB_USERNAME")
+            password = System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
-    compileOnly 'me.clip:placeholderapi:2.11.2'
+    compileOnly 'me.clip:placeholderapi:2.11.3'
+    implementation 'pl.panszelescik:bukkitscheduler:1.0-SNAPSHOT'
 }
 
 import org.apache.tools.ant.filters.ReplaceTokens

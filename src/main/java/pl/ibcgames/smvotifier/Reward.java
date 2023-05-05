@@ -78,9 +78,9 @@ public class Reward implements CommandExecutor {
                 cmd = cmd.replace("{GRACZ}", sender.getName());
                 String finalCmd = cmd;
 
-                Bukkit.getScheduler().scheduleSyncDelayedTask(Votifier.plugin, () -> {
+                Votifier.scheduler.scheduleSyncDelayedTask(() -> {
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), finalCmd);
-                }, 0);
+                });
             }
         }
     }
