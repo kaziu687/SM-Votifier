@@ -34,7 +34,7 @@ public final class Consts {
     public static final String ERROR_DOWNLOAD_USER_VOTE_DATA_PLAYER_MESSAGE = "Nie udało się pobrać danych, spróbuj później";
     public static final String ERROR_TEST_REWARD_MESSAGE = "Nie udało się przetestować nagrody";
     public static final String COMMAND_TIMEOUT_MESSAGE_1 = "Ta komenda może być użyta za ";
-    public static final String COMMAND_TIMEOUT_MESSAGE_2 = "sekund";
+    public static final String COMMAND_TIMEOUT_MESSAGE_2 = " sekund";
     public static final String USER_CAN_NOT_CLAIM_REWARD_MESSAGE = "Nie udało się odebrać nagrody, spróbuj później";
 
     public static final String NO_IDENTIFIER_MESSAGE_1 = "Brak identyfikatora serwera w konfiguracji " + PLUGIN_NAME;
